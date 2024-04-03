@@ -1,0 +1,8 @@
+#ignore
+
+*.yml
+*.js
+*.md
+*.html
+*.css
+*.json

@@ -1,0 +1,12 @@
+.input-login label {
+  font-weight: 500;
+  font-size: 14;
+}
+
+.input-login input {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  font-size: 14px;
+  height: 45px;
+  box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.1);
+}/*# sourceMappingURL=InputComponent.css.map */

@@ -1,0 +1,14 @@
+@import '../../../../assets/scss/colors.scss';
+
+.input-login label {
+  font-weight: 500;
+  font-size: 14;
+}
+
+.input-login input {
+  border: 1px solid $transparent-black;
+  border-radius: 12px;
+  font-size: 14px;
+  height: 45px;
+  box-shadow: 0px 2px 6px 0px $transparent-black;
+}

@@ -1,0 +1,16 @@
+@import '../../../../assets/scss/colors.scss';
+
+.container-component {
+  width: 100px;
+  min-height: 100px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px $transparent-black;
+  padding: 20px;
+}
+
+.login-form {
+  width: 315px !important;
+  border: none !important;
+  box-shadow: none !important;
+}

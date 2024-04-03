@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="description" content="Agille" />
+    <link href="//fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet" />
+    <!-- SPLASH SCREEN-->
+    <link rel="stylesheet" id="layout-styles-anchor" href="%PUBLIC_URL%/splash-screen.css" />
+    <link href="https://use.fontawesome.com/releases/v5.0.2/css/all.css" rel="stylesheet" />
+    <title>Agille Soluções</title>
+    <link rel="shortcut icon" href="%PUBLIC_URL%/media/logos/favIconAgille.png" />
+  </head>
+  <!-- TIP: add dark-mode class to enable dark mode -->
+
+  <body id="kt_body" class="page-loading dark-mode">
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root" class="d-flex flex-column flex-root"></div>
+    <div id="splash-screen" class="splash-screen">
+      <img
+        src="%PUBLIC_URL%/media/illustrations/custom/logoAgille.webp"
+        alt="Agille Logo"
+        height="100px"
+      />
+      <span>Carregando ...</span>
+    </div>
+    <div id="root-modals"></div>
+    <link rel="stylesheet" href="https://npmcdn.com/leaflet@1.0.0-rc.2/dist/leaflet.css" />
+    <style type="text/css">
+      .leaflet-container {
+        height: 400px;
+        z-index: 1;
+      }
+    </style>
+  </body>
+</html>

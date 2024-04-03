@@ -1,0 +1,17 @@
+{
+  "projects": {
+    "default": "agille-frontend"
+  },
+  "targets": {
+    "agille-frontend": {
+      "hosting": {
+        "agille-prod": [
+          "agille-prod"
+        ],
+        "agille-frontend": [
+          "agille-frontend"
+        ]
+      }
+    }
+  }
+}

@@ -56,6 +56,7 @@ export default function PropertyConsultPage(props: PropertyConsultPageProps) {
         setSize(res.metadata.dataSize)
       })
       .finally(() => setListIsLoading(false))
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedPage, size, searchText, selectedOption])
 
   const proprietysList = proprietys.map((e) => ({
@@ -93,11 +94,11 @@ export default function PropertyConsultPage(props: PropertyConsultPageProps) {
         href: '/ITR/ITRMainPage/DetailsProperty/' + e.id,
         useRouterLink: true,
       },
-        {
+      {
         content: 'Dados para laudo',
-        className: 'btn-primary',
-        buttonAction: () => {},
-        href: '/ITR/ITRMainPage/DetailsProperty/' + e.id,
+        className: 'btn-primary mx-2',
+        buttonAction: () => { },
+        href: '/ITR/RegisterBareLand',
         useRouterLink: true,
       }
     ],

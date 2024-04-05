@@ -85,6 +85,7 @@
   },
   "scripts": {
     "start": "SET NODE_OPTIONS=--openssl-legacy-provider && react-scripts start",
+    "start:dev": "SET NODE_OPTIONS=--openssl-legacy-provider && dotenv -e .env.staging react-scripts start",
     "build": "SET NODE_OPTIONS=--openssl-legacy-provider && react-scripts build",
     "build:staging": "set NODE_OPTIONS=--openssl-legacy-provider && dotenv -e .env.staging react-scripts build",
     "test": "react-scripts test",

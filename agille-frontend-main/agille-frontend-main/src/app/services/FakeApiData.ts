@@ -3890,17 +3890,17 @@ export function getFakeModalItemsByInterval(page: number, items: any[]) {
 }
 
 export const getData = (path: string, type?: string): any[] => {
-  if (path == '/api/v1/entities') return fakeEntities
-  if (path == '/api/v1/franchise') return fakeSubs
-  if (path == '/api/v1/user' && type == 'Admin') return fakeAdm
-  if (path == '/api/v1/user' && type == 'BackOffice') return fakeUsu
-  if (path == '/api/v1/user' && type == 'Auditor') return fakeAuditor
+  if (path === '/api/v1/entities') return fakeEntities
+  if (path === '/api/v1/franchise') return fakeSubs
+  if (path === '/api/v1/user' && type === 'Admin') return fakeAdm
+  if (path === '/api/v1/user' && type === 'BackOffice') return fakeUsu
+  if (path === '/api/v1/user' && type === 'Auditor') return fakeAuditor
 
-  if (path == '/api/v1/import-list') return fakeImportList
-  if (path == '/api/v1/import-stats') return fakeImportStats
-  if (path == '/api/v1/cross-list') return fakeCrossList
-  if (path == '/api/v1/cross-detail') return fakeCrossListDetail
-  if (path == '/api/v1/crossing') return fakeCrossing
+  if (path === '/api/v1/import-list') return fakeImportList
+  if (path === '/api/v1/import-stats') return fakeImportStats
+  if (path === '/api/v1/cross-list') return fakeCrossList
+  if (path === '/api/v1/cross-detail') return fakeCrossListDetail
+  if (path === '/api/v1/crossing') return fakeCrossing
 
   return fakeAdm
 }

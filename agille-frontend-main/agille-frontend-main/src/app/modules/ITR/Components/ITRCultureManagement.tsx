@@ -20,8 +20,8 @@ export default function ITRAgricultureManagement(props: ITRCultureTypeProps) {
           <div style={{marginRight: 20}}>
             <RegisterFormModelInput
               mask={masks.number}
-              label={e.name + ' - Área de plantio m2'}
-              placeholder='10m2'
+              label={e.name + ' - Área de plantio hectares'}
+              placeholder='1ha'
               fieldProps={props.getFieldProps(`agricultura.${e.name}`)}
               touched={undefined}
               errors={undefined}

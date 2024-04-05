@@ -94,8 +94,8 @@ export default function ExpenseTemplateComponent() {
   console.log(cityConfig) */
   
   const municipio = useApiEntities().data?.agiprev.municipioNome || 'Município não encontrado' 
-  const cityConfig = removeAccents(municipio.toLowerCase())
-  // console.log(cityConfig)
+  const cityConfig = municipio.toLowerCase()
+  //console.log(cityConfig)
 
   function onSelectedPageChanged(page: number) {
     setSelectedPage(page);

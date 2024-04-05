@@ -1,8 +1,8 @@
 import {useFormik} from 'formik'
-import {set} from 'immer/dist/internal'
+//import {set} from 'immer/dist/internal'
 import {useState, useEffect} from 'react'
 import {Nav} from 'react-bootstrap-v5'
-import {SelectInput} from '../../../../components/SelectInput'
+//import {SelectInput} from '../../../../components/SelectInput'
 import {CustomButton} from '../../../components/CustomButton/CustomButton'
 import {CultureDeclaration, getCultureDeclaration} from '../../../services/CultureDeclarationApi'
 import {CultureType, CultureTypeApi, getCultureType} from '../../../services/CultureTypeApi'
@@ -23,6 +23,7 @@ export function getApiDeclarationValue(
   formValues: CultureDeclarationFormData,
   cultureTypes: CultureTypeApi[]
 ) {
+  // eslint-disable-next-line array-callback-return
   const cultureData = cultureTypes.map((e) => {
     if (e.type === CultureType.Agriculture) {
       if (!formValues.agricultura?.[e.name]) {
@@ -96,14 +97,14 @@ export default function ITRCultureManagementModal(props: ITRModalCultureManageme
   const [isLoading, setIsLoading] = useState(false)
   const [cultureTypeList, setCultureTypeList] = useState<CultureTypeApi[]>([])
   const [initialValues, setInitialValues] = useState(defaultInitialValues)
-  const [showModalCulture, setShowModalCulture] = useState(false)
+  // const [showModalCulture, setShowModalCulture] = useState(false)
   const [dataTabId, setDataTabId] = useState(0)
   const updateTabId = (id: number) => {
     setDataTabId(id)
   }
 
   function refreshCultureList() {
-    getCultureDeclaration(props.id).then((res) => {
+    getCultureDeclaration(props.id).then((res) => { // aqui o get
       setInitialValues(getDeclarationInitialValue(res.data, formik.values.year ?? ''))
     })
     getCultureType().then((res) => {
@@ -139,7 +140,11 @@ export default function ITRCultureManagementModal(props: ITRModalCultureManageme
   })
   useEffect(() => {
     refreshCultureList()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formik.values.year])
+
+  //console.log(CultureCheckedAgricultureList)
+
   return (
     <ModeloModal
       size='xl'
@@ -221,7 +226,7 @@ export default function ITRCultureManagementModal(props: ITRModalCultureManageme
               ) : (
                 <CustomButton
                   label='Salvar'
-                  disabled={formik.values.year == '' ? true : isLoading}
+                  disabled={formik.values.year === '' ? true : isLoading}
                   isLoading={isLoading}
                   onSubmit={formik.handleSubmit}
                 />
@@ -251,14 +256,14 @@ function TabModel(props: TabModelProps) {
                 setGetId(i)
                 props.handerId(i)
               }}
-              active={getId == i ? true : false}
+              active={getId === i ? true : false}
             >
               {e.name}
             </Nav.Link>
           </Nav.Item>
         ))}
       </Nav>
-      <div>{props.items.map((e, i) => getId == i && e.content)}</div>
+      <div>{props.items.map((e, i) => getId === i && e.content)}</div>
     </>
   )
 }

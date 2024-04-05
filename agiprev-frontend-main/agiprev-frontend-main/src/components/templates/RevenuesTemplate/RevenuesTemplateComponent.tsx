@@ -79,8 +79,9 @@ export default function RevenuesTemplateComponent() {
   }
   const user = useUserData();
 
-  const municipio = useApiEntities().data?.agiprev.municipioNome || 'Município não encontrado' 
-  const cityConfig = removeAccents(municipio.toLowerCase())
+  const municipio = useApiEntities().data?.agiprev.municipioNome || ''
+  const cityConfig = municipio.toLowerCase()
+  //console.log(cityConfig)
 
   const listRevenue = useRevenue(
     selectedPage,

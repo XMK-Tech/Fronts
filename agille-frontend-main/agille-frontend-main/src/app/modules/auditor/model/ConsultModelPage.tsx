@@ -39,7 +39,7 @@ export default function NoticeListPage(props: TableViewProps) {
               <span
                 className={`${getNoticeColor(model.type)} fw-bolder d-block`}
               >
-                {model.type == NoticeType.Notice ? 'Notificação' : 'Autuação'}
+                {model.type === NoticeType.Notice ? 'Notificação' : 'Autuação'}
               </span>,
             ]),
             detailsColumn: [

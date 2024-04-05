@@ -56,7 +56,7 @@ export default function FPMLaunchTemplateComponent() {
   const cityConfig = regexMatch ? regexMatch[1] : 'Município não encontrado'; */
 
   const municipio = useApiEntities().data?.agiprev.municipioNome || 'Município não encontrado' 
-  const cityConfig = removeAccents(municipio.toLowerCase()) 
+  const cityConfig = municipio.toLowerCase() 
 
   const { pageSize, selectedPage, setSelectedPage } = usePagination();
 

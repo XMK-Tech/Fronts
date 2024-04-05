@@ -118,7 +118,7 @@ export default function CollectionTemplateComponent() {
   );
 
   const municipio = useApiEntities().data?.agiprev.municipioNome || 'Município não encontrado' 
-  const cityConfig = removeAccents(municipio.toLowerCase()) 
+  const cityConfig = municipio.toLowerCase() 
 
   const listCollection = useCollection(
     selectedPage,

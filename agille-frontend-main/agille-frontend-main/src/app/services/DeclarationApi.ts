@@ -14,12 +14,12 @@ export type ITRDeclarationType = {
 }
 
 export type BareLandType = {
-  goodAptitude: number
-  regularAptitude: number
-  restrictedFitness: number
-  plantedPastures: number
-  forestryOrNaturalPasture: number
-  preservationOfFaunaOrFlora: number
+  goodAptitude: number | string
+  regularAptitude: number | string
+  restrictedFitness: number | string
+  plantedPastures: number | string
+  forestryOrNaturalPasture: number | string
+  preservationOfFaunaOrFlora: number | string
   year?: string
   report?: string
 }

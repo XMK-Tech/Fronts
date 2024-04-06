@@ -111,7 +111,7 @@ export default function RegisterBareLand() {
             <IsLoadingList />
           ) : (
             <>
-              <RegisterFormModelColumn container='center'>
+              {/* <RegisterFormModelColumn container='center'>
                 <div className='d-flex justify-content-center'>
                   <AttachmentDropZoneReview
                     value={formik.values.report}
@@ -122,7 +122,7 @@ export default function RegisterBareLand() {
                     }
                   />
                 </div>
-              </RegisterFormModelColumn>
+              </RegisterFormModelColumn> */}
               <RegisterFormModelColumn container='center'>
                 <MaskedFieldInput
                   label='Lavoura Aptidão Boa'

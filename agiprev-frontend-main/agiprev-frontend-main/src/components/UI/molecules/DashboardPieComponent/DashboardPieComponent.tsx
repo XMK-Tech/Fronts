@@ -3,6 +3,7 @@ import * as V from 'victory';
 import CircleLabelComponent from '../../atoms/CircleLabelComponent/CircleLabelComponent';
 import HeaderCardComponent from '../../atoms/HeaderCardComponent/HeaderCardComponent';
 
+
 type DashBoardPieComponentProps = {
   data: { x: string; y: number }[];
   dashSize?: number;

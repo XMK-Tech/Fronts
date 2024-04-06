@@ -35,12 +35,12 @@ export function ModalErrorFooter({
   error,
   modalFooter,
 }: {
-  error: {message: any} | null
+  error?: {message: any} | null
   modalFooter: JSX.Element
 }): React.ReactElement {
   return (
     <div className='w-100 d-flex flex-row align-items-center justify-content-between'>
-      {!error ? <div /> : <FormError noMargin status={error} />}
+      {!error || error.message === '' ? <div /> : <FormError noMargin status={error} />}
       {modalFooter}
     </div>
   )

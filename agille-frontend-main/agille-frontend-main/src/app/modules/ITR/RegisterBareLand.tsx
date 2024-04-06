@@ -5,10 +5,9 @@ import {RegisterFormModelColumn} from '../../../components/RegisterFormModel'
 import {CustomButton} from '../../components/CustomButton/CustomButton'
 import {MaskedFieldInput} from '../../components/Form/FormInput'
 import {getBareLand, putBareLand} from '../../services/DeclarationApi'
-import {AttachmentDropZoneReview} from '../../utils/components/AttachmentDropZoneReview'
 import IsLoadingList from '../../utils/components/IsLoadingList'
 import SelectYear from '../../../components/SelectYear'
-import {convertMoneyToNumber, moneyMask} from '../../utils/functions/masks'
+import {clearMoneyMask, convertToMonetaryValue, moneyMask} from '../../utils/functions/masks'
 
 export const actualYear = new Date().getFullYear()
 
@@ -38,19 +37,23 @@ export default function RegisterBareLand() {
   const refreshList = (year: string) => {
     setLoadingList(true)
     getBareLand(year).then((res) => {
-      setGoodAptitude(res.data.goodAptitude.toString())
-      setRegularAptitude(res.data.regularAptitude.toString())
-      setRestrictedFitness(res.data.restrictedFitness.toString())
-      setPlantedPastures(res.data.plantedPastures.toString())
-      setForestryOrNaturalPasture(res.data.forestryOrNaturalPasture.toString())
-      setPreservationOfFaunaOrFlora(res.data.preservationOfFaunaOrFlora.toString())
+      setGoodAptitude(convertToMonetaryValue(res.data.goodAptitude))
+      setRegularAptitude(convertToMonetaryValue(res.data.regularAptitude))
+      setRestrictedFitness(convertToMonetaryValue(res.data.restrictedFitness))
+      setPlantedPastures(convertToMonetaryValue(res.data.plantedPastures))
+      setForestryOrNaturalPasture(convertToMonetaryValue(res.data.forestryOrNaturalPasture))
+      setPreservationOfFaunaOrFlora(convertToMonetaryValue(res.data.preservationOfFaunaOrFlora))
       setInitialValues({
-        forestryOrNaturalPasture: res.data.forestryOrNaturalPasture.toString(),
-        goodAptitude: res.data.goodAptitude.toString(),
-        plantedPastures: res.data.plantedPastures.toString(),
-        preservationOfFaunaOrFlora: res.data.preservationOfFaunaOrFlora.toString(),
-        regularAptitude: res.data.regularAptitude.toString(),
-        restrictedFitness: res.data.restrictedFitness.toString(),
+        forestryOrNaturalPasture: convertToMonetaryValue(
+          res.data.forestryOrNaturalPasture
+        ),
+        goodAptitude: convertToMonetaryValue(res.data.goodAptitude),
+        plantedPastures: convertToMonetaryValue(res.data.plantedPastures),
+        preservationOfFaunaOrFlora: convertToMonetaryValue(
+          res.data.preservationOfFaunaOrFlora
+        ),
+        regularAptitude: convertToMonetaryValue(res.data.regularAptitude),
+        restrictedFitness: convertToMonetaryValue(res.data.restrictedFitness),
         year: year,
         report: res.data.report,
       })
@@ -66,12 +69,12 @@ export default function RegisterBareLand() {
       setIsLoading(true)
       try {
         await putBareLand({
-          forestryOrNaturalPasture: convertMoneyToNumber(forestryOrNaturalPasture),
-          goodAptitude: convertMoneyToNumber(goodAptitude),
-          plantedPastures: convertMoneyToNumber(plantedPastures),
-          preservationOfFaunaOrFlora: convertMoneyToNumber(preservationOfFaunaOrFlora),
-          regularAptitude: convertMoneyToNumber(regularAptitude),
-          restrictedFitness: convertMoneyToNumber(restrictedFitness),
+          forestryOrNaturalPasture: clearMoneyMask(forestryOrNaturalPasture),
+          goodAptitude: clearMoneyMask(goodAptitude),
+          plantedPastures: clearMoneyMask(plantedPastures),
+          preservationOfFaunaOrFlora: clearMoneyMask(preservationOfFaunaOrFlora),
+          regularAptitude: clearMoneyMask(regularAptitude),
+          restrictedFitness: clearMoneyMask(restrictedFitness),
           year: values.year,
           report: reporUrl,
         })
@@ -111,7 +114,7 @@ export default function RegisterBareLand() {
             <IsLoadingList />
           ) : (
             <>
-              <RegisterFormModelColumn container='center'>
+              {/* <RegisterFormModelColumn container='center'>
                 <div className='d-flex justify-content-center'>
                   <AttachmentDropZoneReview
                     value={formik.values.report}
@@ -122,25 +125,25 @@ export default function RegisterBareLand() {
                     }
                   />
                 </div>
-              </RegisterFormModelColumn>
+              </RegisterFormModelColumn> */}
               <RegisterFormModelColumn container='center'>
                 <MaskedFieldInput
                   label='Lavoura Aptidão Boa'
                   value={moneyMask(goodAptitude)}
                   className='shadow form-control'
-                  onChange={(e) => setGoodAptitude(moneyMask(e))}
+                  onChange={(e) => setGoodAptitude(e)}
                 />
                 <MaskedFieldInput
                   label='Lavoura Aptidão Regular'
                   value={moneyMask(regularAptitude)}
                   className='shadow form-control'
-                  onChange={(e) => setRegularAptitude(moneyMask(e))}
+                  onChange={(e) => setRegularAptitude(e)}
                 />
                 <MaskedFieldInput
                   label='Lavoura Aptidão Restrita'
                   value={moneyMask(restrictedFitness)}
                   className='shadow form-control'
-                  onChange={(e) => setRestrictedFitness(moneyMask(e))}
+                  onChange={(e) => setRestrictedFitness(e)}
                 />
               </RegisterFormModelColumn>
 
@@ -149,19 +152,19 @@ export default function RegisterBareLand() {
                   label='Pastagens Plantadas'
                   value={moneyMask(plantedPastures)}
                   className='shadow form-control'
-                  onChange={(e) => setPlantedPastures(moneyMask(e))}
+                  onChange={(e) => setPlantedPastures(e)}
                 />
                 <MaskedFieldInput
                   label='Silvicultura ou Pastagem Natural'
                   value={moneyMask(forestryOrNaturalPasture)}
                   className='shadow form-control'
-                  onChange={(e) => setForestryOrNaturalPasture(moneyMask(e))}
+                  onChange={(e) => setForestryOrNaturalPasture(e)}
                 />
                 <MaskedFieldInput
                   label='Preservação da Fauna ou Flora'
                   value={moneyMask(preservationOfFaunaOrFlora)}
                   className='shadow form-control'
-                  onChange={(e) => setPreservationOfFaunaOrFlora(moneyMask(e))}
+                  onChange={(e) => setPreservationOfFaunaOrFlora(e)}
                 />
               </RegisterFormModelColumn>
             </>

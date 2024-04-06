@@ -134,8 +134,8 @@ export function AreaDistributionStep({
   stepSubmitted: boolean
 }) {
   return (
-    <>
-      <ITRRegisterFormColumn>
+    <div style={{width:'100%'}}>
+      <div style={{display: 'flex'}}>
         <RegisterFormModelInput
           label='Área de Preservação Permanente'
           placeholder='Ex : 13'
@@ -150,8 +150,6 @@ export function AreaDistributionStep({
           type='permanentPreservation'
           mask={masks.area}
         />
-      </ITRRegisterFormColumn>
-      <ITRRegisterFormColumn>
         <RegisterFormModelInput
           label='Área de Reserva Legal'
           placeholder='Ex : 13'
@@ -166,8 +164,6 @@ export function AreaDistributionStep({
           type='legalReserve'
           mask={masks.area}
         />
-      </ITRRegisterFormColumn>
-      <ITRRegisterFormColumn>
         <RegisterFormModelInput
           label='Área Ocupada Com Benfeitorias'
           placeholder='Ex : 13'
@@ -182,6 +178,8 @@ export function AreaDistributionStep({
           type='busyWithImprovements'
           mask={masks.area}
         />
+      </div>
+      <div style={{display: 'flex'}}>
         <RegisterFormModelInput
           label='Area com Reflorestamento'
           placeholder='Ex : 13'
@@ -196,8 +194,66 @@ export function AreaDistributionStep({
           type='reforestation'
           mask={masks.area}
         />
-      </ITRRegisterFormColumn>
-    </>
+        <RegisterFormModelInput
+          label='Lavoura Aptidão Boa'
+          placeholder='Ex : 13'
+          fieldProps={formik.getFieldProps('goodSuitabilityFarming')}
+          touched={
+            formik.touched.goodSuitabilityFarming ||
+            stepSubmitted ||
+            formik.touched.goodSuitabilityFarming ||
+            stepSubmitted
+          }
+          errors={formik.errors.goodSuitabilityFarming}
+          type='goodSuitabilityFarming'
+          mask={masks.area}
+        />
+        <RegisterFormModelInput
+          label='Lavoura Aptidão Regular'
+          placeholder='Ex : 13'
+          fieldProps={formik.getFieldProps('regularFitnessFarming')}
+          touched={
+            formik.touched.regularFitnessFarming ||
+            stepSubmitted ||
+            formik.touched.regularFitnessFarming ||
+            stepSubmitted
+          }
+          errors={formik.errors.regularFitnessFarming}
+          type='regularFitnessFarming'
+          mask={masks.area}
+        />
+      </div>
+      <div style={{display: 'flex',width:'67%'}}>
+        <RegisterFormModelInput
+          label='Lavoura Aptidão Restrita'
+          placeholder='Ex : 13'
+          fieldProps={formik.getFieldProps('restrictedAptitudeFarming')}
+          touched={
+            formik.touched.restrictedAptitudeFarming ||
+            stepSubmitted ||
+            formik.touched.restrictedAptitudeFarming ||
+            stepSubmitted
+          }
+          errors={formik.errors.restrictedAptitudeFarming}
+          type='restrictedAptitudeFarming'
+          mask={masks.area}
+        />
+        <RegisterFormModelInput
+          label='Pastagem Plantada '
+          placeholder='Ex : 13'
+          fieldProps={formik.getFieldProps('plantedPasture')}
+          touched={
+            formik.touched.plantedPasture ||
+            stepSubmitted ||
+            formik.touched.plantedPasture ||
+            stepSubmitted
+          }
+          errors={formik.errors.plantedPasture}
+          type='plantedPasture'
+          mask={masks.area}
+        />
+      </div>
+    </div>
   )
 }
 export function GeneralInfoStep({

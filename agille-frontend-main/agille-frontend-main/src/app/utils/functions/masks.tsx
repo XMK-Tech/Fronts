@@ -9,6 +9,19 @@ export function areaMask(value: MaskInput) {
       .replace(/(\d)(?=(\d{3})+(,(\d){0,2})*$)/g, '$1.')
   )
 }
+function stringToNumber(value: string): number | null {
+  const numberValue: number = parseFloat(value) / 100;
+  return numberValue;
+}
+export function convertToMonetaryValue(value: number) {
+  return value ? moneyMask(value.toFixed(2)) : 'R$ 0,00'
+}
+export function clearMoneyMask(value: string) {
+  if (!value) return '';
+  const cleanValue = value.replace(/\D/g, '');
+  const formatedValue = stringToNumber(cleanValue);
+  return formatedValue ?? '';
+}
 
 export function moneyMask(value: MaskInput) {
   if (!value) return ''

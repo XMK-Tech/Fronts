@@ -84,7 +84,7 @@ export const RegisterFormModelInput: React.FC<UserInfoCardProps> = ({
   style,
 }) => {
   return (
-    <div className='py-3'>
+    <div style={{width:'100%'}} className='py-3'>
       <strong className=''>{label}</strong>
       <MaskedInput
         placeholder={placeholder}

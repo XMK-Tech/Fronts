@@ -126,6 +126,10 @@ export const defaultInitialValues = {
   legalReserve: '',
   busyWithImprovements: '',
   reforestation: '',
+  goodSuitabilityFarming: '',
+  regularFitnessFarming: '',
+  restrictedAptitudeFarming: '',
+  plantedPasture: '',
 }
 export type ValueType = typeof defaultInitialValues
 
@@ -190,6 +194,10 @@ export function valueTypeToPropriety(values: ValueType): ProprietyType {
     legalReserve: convertStringValueToNumber(values.legalReserve),
     busyWithImprovements: convertStringValueToNumber(values.busyWithImprovements),
     reforestation: convertStringValueToNumber(values.reforestation),
+    goodSuitabilityFarming: convertStringValueToNumber(values.goodSuitabilityFarming),
+    regularFitnessFarming: convertStringValueToNumber(values.regularFitnessFarming),
+    restrictedAptitudeFarming: convertStringValueToNumber(values.restrictedAptitudeFarming),
+    plantedPasture: convertStringValueToNumber(values.plantedPasture),
   }
 }
 
@@ -242,5 +250,10 @@ export function proprietyToValueType(propriety: any): ValueType {
     legalReserve: convertNumberToStringValue(propriety.legalReserve) ?? '',
     busyWithImprovements: convertNumberToStringValue(propriety.busyWithImprovements) ?? '',
     reforestation: convertNumberToStringValue(propriety.reforestation) ?? '',
+    goodSuitabilityFarming: propriety.goodSuitabilityFarming?? '',
+    regularFitnessFarming: propriety.regularFitnessFarming?? '',
+    restrictedAptitudeFarming:
+      propriety.restrictedAptitudeFarming?? '',
+    plantedPasture: propriety.plantedPasture?? '',
   }
 }

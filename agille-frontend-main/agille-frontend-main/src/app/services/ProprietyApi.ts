@@ -83,6 +83,10 @@ export type ProprietyType = {
   legalReserve: number
   busyWithImprovements: number
   reforestation: number
+  goodSuitabilityFarming: number
+  regularFitnessFarming: number
+  restrictedAptitudeFarming: number
+  plantedPasture: number
   //TODO: Validate contract (the name will be changed)
   coordinates: any
   coordenates: any

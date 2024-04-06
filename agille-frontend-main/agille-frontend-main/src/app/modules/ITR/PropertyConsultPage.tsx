@@ -107,11 +107,13 @@ export default function PropertyConsultPage(props: PropertyConsultPageProps) {
         useRouterLink: true,
       },
       {
-        content: 'Gerar laudo',
+        content: 'Laudo',
         className: 'btn-primary mx-2',
         buttonAction: () => {
           setCibReport(e.cibNumber)
           setShowModalLaudo(true)
+          setCpfReport('')
+          setNameReport('')
         },
         // href: '/ITR/RegisterBareLand',
         // useRouterLink: true,
@@ -138,7 +140,6 @@ export default function PropertyConsultPage(props: PropertyConsultPageProps) {
     <>
       <div className='card'>
         <div className='card-header border-0 pt-5'>
-          <DashboardPieComponente />
           <h3 className='card-title align-items-start flex-column'>
             <span className='card-label fw-bolder fs-3 mb-1'>Imóveis</span>
           </h3>
@@ -193,7 +194,7 @@ export default function PropertyConsultPage(props: PropertyConsultPageProps) {
           }}
           title={
             <div className='d-flex align-items-center justify-content-between'>
-              <div>Gerar Laudo</div>
+              <div>Laudo</div>
             </div>
           }
           body={
@@ -235,7 +236,7 @@ export default function PropertyConsultPage(props: PropertyConsultPageProps) {
                 </div>
               </div>
               <div className='d-flex flex-column'>
-                <div>Dados do laudo</div>
+                <div>Dados do laudo </div>
                 <DashboardPieComponente />
               </div>
             </div>
@@ -245,9 +246,9 @@ export default function PropertyConsultPage(props: PropertyConsultPageProps) {
               error={error}
               modalFooter={
                 <CustomButton
-                  label='Gerar Laudo'
+                  label='Gerar Laudo (PDF)'
                   isLoading={isLoadingReport}
-                  disabled={isLoadingReport}
+                  disabled={isLoadingReport || nameReport.length < 0 || cpfReport.length < 11}
                   onSubmit={() => {
                     saveExport()
                   }}
@@ -282,7 +283,7 @@ export function DashboardPieComponente() {
             data={data}
             innerRadius={68}
             labelRadius={100}
-            labels={data.map((e)=>e.y)}
+            labels={data.map((e) => e.y)}
             style={{labels: {fontSize: 20, fill: 'white'}}}
           />
           <V.VictoryLabel textAnchor='middle' style={{fontSize: 20}} x={200} y={200} text='' />
@@ -292,9 +293,17 @@ export function DashboardPieComponente() {
         <div>
           {data.map((e, i) => (
             <div className='d-flex align-items-center mb-4'>
-              <div style={{width: 8, height: 8, backgroundColor: itemColor[i],marginRight:8, borderRadius:'50%'}}></div>
+              <div
+                style={{
+                  width: 8,
+                  height: 8,
+                  backgroundColor: itemColor[i],
+                  marginRight: 8,
+                  borderRadius: '50%',
+                }}
+              ></div>
               <div>
-                {e.x} %{e.y}
+                {e.x} - {e.y}%
               </div>
             </div>
           ))}

@@ -275,20 +275,46 @@ export function DashboardPieComponente(props: {proprietyId: string}) {
   const data = [
     {
       x: 'Lavoura Aptidão Boa',
-      y: percentageGoodAptitude.toFixed(2),
+      y: percentageGoodAptitude.toFixed(2) === 'NaN' ? '0.00' : percentageGoodAptitude.toFixed(2),
     },
-    {x: 'Lavoura Aptidão Regular', y: percentageRegularAptitudeValue.toFixed(2)},
-    {x: 'Lavoura Aptidão Restrita', y: percentageRestrictedFitness.toFixed(2)},
-    {x: 'Pastagem Plantada', y: percentagePlantedPastures.toFixed(2)},
-    {x: 'Silvicultura ou Pastagem Natural', y: percentageForestryOrNaturalPasture.toFixed(2)},
-    {x: 'Preservação da Fauna ou Flora', y: percentagePreservationOfFaunaOrFlora.toFixed(2)},
+    {
+      x: 'Lavoura Aptidão Regular',
+      y:
+        percentageRegularAptitudeValue.toFixed(2) === 'NaN'
+          ? '0.00'
+          : percentageRegularAptitudeValue.toFixed(2),
+    },
+    {
+      x: 'Lavoura Aptidão Restrita',
+      y:
+        percentageRestrictedFitness.toFixed(2) === 'NaN'
+          ? '0.00'
+          : percentageRestrictedFitness.toFixed(2),
+    },
+    {
+      x: 'Pastagem Plantada',
+      y: percentagePlantedPastures.toFixed(2) === 'NaN' ? '0.00' : percentagePlantedPastures.toFixed(2),
+    },
+    {
+      x: 'Silvicultura ou Pastagem Natural',
+      y:
+        percentageForestryOrNaturalPasture.toFixed(2) === 'NaN'
+          ? '0.00'
+          : percentageForestryOrNaturalPasture.toFixed(2),
+    },
+    {
+      x: 'Preservação da Fauna ou Flora',
+      y:
+        percentagePreservationOfFaunaOrFlora.toFixed(2) === 'NaN'
+          ? '0.00'
+          : percentagePreservationOfFaunaOrFlora.toFixed(2),
+    },
   ]
   const itemColor = ['#0FC2C0', '#4C5958', '#008F8C', '#015958', '#023535', '#8AA6A3']
 
-  console.log(percentageForestryOrNaturalPasture)
   return (
-    <div className='d-flex align-items-center'>
-      <div style={{width: 300, height: 300}}>
+    <div className='d-flex align-items-center justify0contetn-between'>
+      <div style={{width: 350, height: 350}}>
         <svg viewBox='0 0 400 400'>
           <V.VictoryPie
             colorScale={['#0FC2C0', '#4C5958', '#008F8C', '#015958', '#023535', '#8AA6A3']}
@@ -298,10 +324,10 @@ export function DashboardPieComponente(props: {proprietyId: string}) {
             data={data}
             innerRadius={68}
             labelRadius={100}
-            labels={data.map((e) => e.y.toString())}
-            style={{labels: {fontSize: 20, fill: 'white'}}}
+            labels={data.map((e) => e.y.toString() || '0')}
+            style={{labels: {fontSize: 14, fill: 'white'}}}
           />
-          <V.VictoryLabel textAnchor='middle' style={{fontSize: 20}} x={200} y={200} text='' />
+          {/* <V.VictoryLabel textAnchor='middle' style={{fontSize: 20}} x={200} y={200} text='' /> */}
         </svg>
       </div>
       <div>

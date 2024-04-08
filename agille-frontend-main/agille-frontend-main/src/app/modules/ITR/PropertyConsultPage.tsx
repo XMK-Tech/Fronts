@@ -2,7 +2,7 @@ import {useEffect, useState} from 'react'
 import {ImportButton} from '../../../components/ImportButton'
 import Table, {TablePropsRows} from '../../components/Table/Table'
 import {mapContent} from '../../components/Table/TableHead'
-import {getProprieties, ProprietyType} from '../../services/ProprietyApi'
+import {getProprieties, getPropriety, ProprietyType} from '../../services/ProprietyApi'
 import EmptyStateList from '../../utils/components/EmptyStateList'
 import IsLoadingList from '../../utils/components/IsLoadingList'
 import {CustomSearchFilter, useFilter} from '../auth/components/AdminSearchFilter'
@@ -12,10 +12,9 @@ import ITRModalHerds from './Components/ITRModalHerds'
 import {convertNumberToStringValue} from '../../utils/functions/masks'
 import ModeloModal, {ModalErrorFooter} from '../../utils/components/ModeloModal'
 import {CustomButton} from '../../components/CustomButton/CustomButton'
-import {RegisterFormModelInput} from '../../../components/RegisterFormModel'
-import {masks} from '../../components/Form/FormInput'
 import {getExportProperty} from '../../services/FiscalProcedureApi'
 import * as V from 'victory'
+import {getBareLand} from '../../services/DeclarationApi'
 
 const PropietyListTable: React.FC<TablePropsRows> = (props) => {
   return (
@@ -60,6 +59,7 @@ export default function PropertyConsultPage(props: PropertyConsultPageProps) {
   const [nameReport, setNameReport] = useState('')
   const [cpfReport, setCpfReport] = useState('')
   const [cibReport, setCibReport] = useState('')
+
   useEffect(() => {
     setListIsLoading(true)
     getProprieties(searchText, selectedOption?.value, selectedPage)
@@ -94,7 +94,6 @@ export default function PropertyConsultPage(props: PropertyConsultPageProps) {
         className: 'btn-primary mx-2',
 
         buttonAction: () => {
-          console.log(getPropertyId)
           setGetPropertyId(e.id || '')
           setShowModalCultureDeclaration(!showModalCultureDeclaration)
         },
@@ -111,12 +110,11 @@ export default function PropertyConsultPage(props: PropertyConsultPageProps) {
         className: 'btn-primary mx-2',
         buttonAction: () => {
           setCibReport(e.cibNumber)
+          setGetPropertyId(e.id || '')
           setShowModalLaudo(true)
           setCpfReport('')
           setNameReport('')
         },
-        // href: '/ITR/RegisterBareLand',
-        // useRouterLink: true,
       },
     ],
   }))
@@ -186,7 +184,7 @@ export default function PropertyConsultPage(props: PropertyConsultPageProps) {
           id={getPropertyId}
         />
         <ModeloModal
-          size='xl'
+          size='lg'
           show={showModalLaudo}
           onHide={() => {
             setShowModalLaudo(false)
@@ -198,46 +196,10 @@ export default function PropertyConsultPage(props: PropertyConsultPageProps) {
             </div>
           }
           body={
-            <div className='d-flex justify-content-around'>
+            <div className='d-flex justify-content-center align-items-center '>
               <div className='d-flex flex-column'>
-                <div>Digite seu nome e cpf para gerar o laudo da propriedade</div>
-                <div className='card-body d-flex flex-column justify-content-around my-8  '>
-                  <RegisterFormModelInput
-                    label={'Nome'}
-                    placeholder='Digite o nome'
-                    type='text'
-                    touched={undefined}
-                    errors={undefined}
-                    fieldProps={{
-                      value: nameReport,
-                      name: 'name',
-                      onBlur: () => {},
-                      onChange: (input: any) => {
-                        setNameReport(input.target.value)
-                      },
-                    }}
-                  />
-                  <RegisterFormModelInput
-                    label={'CPF'}
-                    placeholder='Digite o CPF'
-                    type='text'
-                    touched={undefined}
-                    errors={undefined}
-                    mask={masks.cpf}
-                    fieldProps={{
-                      value: cpfReport,
-                      name: 'document',
-                      onBlur: () => {},
-                      onChange: (input: any) => {
-                        setCpfReport(input.target.value)
-                      },
-                    }}
-                  />
-                </div>
-              </div>
-              <div className='d-flex flex-column'>
-                <div>Dados do laudo </div>
-                <DashboardPieComponente />
+                <h3>Dados do laudo </h3>
+                <DashboardPieComponente proprietyId={getPropertyId} />
               </div>
             </div>
           }
@@ -248,7 +210,7 @@ export default function PropertyConsultPage(props: PropertyConsultPageProps) {
                 <CustomButton
                   label='Gerar Laudo (PDF)'
                   isLoading={isLoadingReport}
-                  disabled={isLoadingReport || nameReport.length < 0 || cpfReport.length < 11}
+                  disabled={isLoadingReport}
                   onSubmit={() => {
                     saveExport()
                   }}
@@ -261,16 +223,69 @@ export default function PropertyConsultPage(props: PropertyConsultPageProps) {
     </>
   )
 }
-export function DashboardPieComponente() {
+export function DashboardPieComponente(props: {proprietyId: string}) {
+  const [goodAptitudeValueHa, setGoodAptitudeValueHa] = useState(0)
+  const [regularAptitudeValueHa, setRegularAptitudeValueHa] = useState(0)
+  const [restrictedFitnessValueHa, setRestrictedFitnessValueHa] = useState(0)
+  const [plantedPasturesValueHa, setPlantedPasturesValueHa] = useState(0)
+  const [forestryOrNaturalPastureValueHa, setForestryOrNaturalPastureValueHa] = useState(0)
+  const [preservationOfFaunaOrFloraValueHa, setPreservationOfFaunaOrFloraValueHa] = useState(0)
+  const [proprietyId, setProprietyId] = useState<ProprietyType>()
+
+  useEffect(() => {
+    getPropriety(props.proprietyId).then((res) => {
+      setProprietyId(res.data)
+    })
+    getBareLand('2024').then((res) => {
+      setGoodAptitudeValueHa(res.data.goodAptitude)
+      setRegularAptitudeValueHa(res.data.regularAptitude)
+      setRestrictedFitnessValueHa(res.data.restrictedFitness)
+      setPlantedPasturesValueHa(res.data.plantedPastures)
+      setForestryOrNaturalPastureValueHa(res.data.forestryOrNaturalPasture)
+      setPreservationOfFaunaOrFloraValueHa(res.data.preservationOfFaunaOrFlora)
+    })
+  }, [])
+  const goodAptitudeValueQnt = (proprietyId?.goodSuitabilityFarming || 0) * goodAptitudeValueHa
+  const regularAptitudeValueQnt = (proprietyId?.regularFitnessFarming || 0) * regularAptitudeValueHa
+  const restrictedFitnessQnt =
+    (proprietyId?.restrictedAptitudeFarming || 0) * restrictedFitnessValueHa
+  const plantedPasturesQnt = (proprietyId?.plantedPasture || 0) * plantedPasturesValueHa
+
+  const forestryOrNaturalPastureQnt =
+    ((proprietyId?.reforestation || 0) + (proprietyId?.permanentPreservation || 0)) *
+    forestryOrNaturalPastureValueHa
+  const preservationOfFaunaOrFloraQnt =
+    ((proprietyId?.busyWithImprovements || 0) + (proprietyId?.reforestation || 0)) *
+    preservationOfFaunaOrFloraValueHa
+  const totalArea =
+    goodAptitudeValueQnt +
+    regularAptitudeValueQnt +
+    restrictedFitnessQnt +
+    plantedPasturesQnt +
+    forestryOrNaturalPastureQnt +
+    preservationOfFaunaOrFloraQnt
+
+  const percentageGoodAptitude = (goodAptitudeValueQnt / totalArea) * 100
+  const percentageRegularAptitudeValue = (regularAptitudeValueQnt / totalArea) * 100
+  const percentageRestrictedFitness = (restrictedFitnessQnt / totalArea) * 100
+  const percentagePlantedPastures = (plantedPasturesQnt / totalArea) * 100
+  const percentageForestryOrNaturalPasture = (forestryOrNaturalPastureQnt / totalArea) * 100
+  const percentagePreservationOfFaunaOrFlora = (preservationOfFaunaOrFloraQnt / totalArea) * 100
+
   const data = [
-    {x: 'Lavoura Aptidão Boa', y: 10},
-    {x: 'Lavoura Aptidão Regular', y: 20},
-    {x: 'Lavoura Aptidão Restrita', y: 30},
-    {x: 'Pastagem Plantada', y: 20},
-    {x: 'Silvicultura ou Pastagem Natural', y: 10},
-    {x: 'Preservação da Fauna ou Flora', y: 10},
+    {
+      x: 'Lavoura Aptidão Boa',
+      y: percentageGoodAptitude.toFixed(2),
+    },
+    {x: 'Lavoura Aptidão Regular', y: percentageRegularAptitudeValue.toFixed(2)},
+    {x: 'Lavoura Aptidão Restrita', y: percentageRestrictedFitness.toFixed(2)},
+    {x: 'Pastagem Plantada', y: percentagePlantedPastures.toFixed(2)},
+    {x: 'Silvicultura ou Pastagem Natural', y: percentageForestryOrNaturalPasture.toFixed(2)},
+    {x: 'Preservação da Fauna ou Flora', y: percentagePreservationOfFaunaOrFlora.toFixed(2)},
   ]
   const itemColor = ['#0FC2C0', '#4C5958', '#008F8C', '#015958', '#023535', '#8AA6A3']
+
+  console.log(percentageForestryOrNaturalPasture)
   return (
     <div className='d-flex align-items-center'>
       <div style={{width: 300, height: 300}}>
@@ -283,7 +298,7 @@ export function DashboardPieComponente() {
             data={data}
             innerRadius={68}
             labelRadius={100}
-            labels={data.map((e) => e.y)}
+            labels={data.map((e) => e.y.toString())}
             style={{labels: {fontSize: 20, fill: 'white'}}}
           />
           <V.VictoryLabel textAnchor='middle' style={{fontSize: 20}} x={200} y={200} text='' />
@@ -292,13 +307,13 @@ export function DashboardPieComponente() {
       <div>
         <div>
           {data.map((e, i) => (
-            <div className='d-flex align-items-center mb-4'>
+            <div className='d-flex align-items-center mb-8'>
               <div
                 style={{
-                  width: 8,
-                  height: 8,
+                  width: 12,
+                  height: 12,
                   backgroundColor: itemColor[i],
-                  marginRight: 8,
+                  marginRight: 12,
                   borderRadius: '50%',
                 }}
               ></div>

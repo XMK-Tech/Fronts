@@ -2,7 +2,11 @@ import { useEffect, useState } from 'react';
 import NavbarItemsComponent, {
   NavbarItemsProps,
 } from '../../atoms/NavbarItemsComponent/NavbarItemsComponent';
-import { UserData, useSetUserData, useUserData } from '../../../../services/LoginService';
+import {
+  UserData,
+  useSetUserData,
+  useUserData,
+} from '../../../../services/LoginService';
 import {
   Box,
   IconButton,
@@ -35,20 +39,24 @@ import {
   useMyProfile,
 } from '../../../../services/PhysicalPersonService';
 import IconButtonComponent from '../../atoms/ButtonComponent/IconButton';
-import { useApiEntities } from '../../../../services/EntitiesService';
+import {
+  useApiEntities,
+  useEntitiesSelectUser,
+} from '../../../../services/EntitiesService';
 import { capitalizeFirstLetter } from '../../../../utils/StringFormatter';
+import { ENABLE_MIDDLEWARE } from '../../../../environment';
 
 export default function NavbarComponent(props: NavbarItemsProps) {
-
   const user = useUserData();
+  const entities = useEntitiesSelectUser();
   const setUser = useSetUserData();
   const navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const agiprevConfig = useApiEntities()
+  const agiprevConfig = useApiEntities();
   const queryClient = useQueryClient();
   const [isLargerThan768] = useMediaQuery('(min-width: 768px)');
   const person = useMyProfile();
-  const [ municipioUF, setMunicipioUF ] = useState<string>('')
+  const [municipioUF, setMunicipioUF] = useState<string>('');
 
   function EmailValidation(person: UseQueryResult<PhysicalPerson, unknown>) {
     if (person.data?.user) {
@@ -61,28 +69,26 @@ export default function NavbarComponent(props: NavbarItemsProps) {
   useEffect(() => {
     const municipioNome = agiprevConfig.data?.agiprev.municipioNome;
     const estadoSigla = agiprevConfig.data?.agiprev.estadoSigla;
-  
+
     if (municipioNome && estadoSigla) {
-      setMunicipioUF(`${
-        capitalizeFirstLetter(municipioNome.toLowerCase())
-      } - ${
-        estadoSigla
-      }`);
+      setMunicipioUF(
+        `${capitalizeFirstLetter(municipioNome.toLowerCase())} - ${estadoSigla}`
+      );
     } else {
       setMunicipioUF('Favor adicionar Estado e Município nas configurações');
     }
   }, [agiprevConfig.data]);
 
   const startYear: number = 2018;
-  const endYear: number = new Date().getFullYear();;
+  const endYear: number = new Date().getFullYear();
 
   useEffect(() => {
     setUser({
       ...user,
       year: endYear.toString(),
-    } as UserData)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [endYear, setUser])
+    } as UserData);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [endYear, setUser]);
 
   const options = [];
   for (let year = startYear; year <= endYear; year++) {
@@ -90,6 +96,11 @@ export default function NavbarComponent(props: NavbarItemsProps) {
       id: year.toString(),
       name: `Exercício - ${year}`,
     });
+  }
+  console.log(entities.data);
+  function getEntityNameById(list: any, id: string | undefined) {
+    const filteredList = list.filter((f: any) => f.id === id);
+    return filteredList.map((e: any) => e.name).toString();
   }
 
   return (
@@ -123,7 +134,7 @@ export default function NavbarComponent(props: NavbarItemsProps) {
                   variant={'ghost'}
                   backgroundColor={'gray.100'}
                   arialLabel=""
-                  onSubmit={() => { }}
+                  onSubmit={() => {}}
                   Icon={<FaAngleDoubleRight size={'14px'} />}
                 />
               )}
@@ -139,7 +150,7 @@ export default function NavbarComponent(props: NavbarItemsProps) {
           )}
         </Flex>
         <Flex>
-          <Flex marginRight={3} alignItems={'center'} justifyContent={'center'}>
+          {/* <Flex marginRight={3} alignItems={'center'} justifyContent={'center'}>
             <TextComponent
               fontWeight={'normal'}
               fontSize={'1rem'}
@@ -154,7 +165,37 @@ export default function NavbarComponent(props: NavbarItemsProps) {
             >
               {municipioUF}
             </TextComponent>
-          </Flex>
+          </Flex> */}
+          {ENABLE_MIDDLEWARE && (
+            <Flex mr={4} alignItems={'center'} justifyContent={'center'}>
+              {entities.data?.length === 1 ? (
+                <TextComponent mr={4} fontWeight={'semibold'}>
+                  {getEntityNameById(entities.data, user?.entity)}
+                </TextComponent>
+              ) : (
+                <InputSelectComponent
+                  label=""
+                  defaultValue={user?.entity}
+                  options={entities.data || []}
+                  onChange={(input) => {
+                    setUser({
+                      token: user?.token || '',
+                      personId: user?.personId || '',
+                      permissions: user?.permissions || [],
+                      userId: user?.userId || '',
+                      onBoarding: user?.onBoarding || false,
+                      entity: input.target.value,
+                      // entity: entities.data?.find(
+                      //   (item) => item.id === input.target.value
+                      // ),
+                    });
+                    queryClient.invalidateQueries();
+                    window.location.reload();
+                  }}
+                />
+              )}
+            </Flex>
+          )}
           <Flex marginRight={3} alignItems={'center'} justifyContent={'center'}>
             <InputSelectComponent
               label=""
@@ -164,7 +205,7 @@ export default function NavbarComponent(props: NavbarItemsProps) {
                 setUser({
                   ...user,
                   year: input.target.value,
-                } as UserData)
+                } as UserData);
                 queryClient.invalidateQueries();
               }}
             />

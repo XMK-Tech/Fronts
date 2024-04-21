@@ -185,9 +185,6 @@ export default function NavbarComponent(props: NavbarItemsProps) {
                       userId: user?.userId || '',
                       onBoarding: user?.onBoarding || false,
                       entity: input.target.value,
-                      // entity: entities.data?.find(
-                      //   (item) => item.id === input.target.value
-                      // ),
                     });
                     queryClient.invalidateQueries();
                     window.location.reload();

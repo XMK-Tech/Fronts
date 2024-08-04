@@ -40,7 +40,7 @@ export function convertAreaToNumber(valor: any) {
   return parseFloat(valor.replace('m²', '').replace('.', '').replace(',', '.')) || 0
 }
 export function convertStringValueToNumber(value: string) {
-  const stringWithDot = value.replace(/\./g, '').replace(',', '.')
+  const stringWithDot = value.toString().replace(/\./g, '').replace(',', '.')
 
   return parseFloat(stringWithDot)
 }
